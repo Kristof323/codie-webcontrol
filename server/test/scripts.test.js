@@ -11,7 +11,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const scriptsDir = path.join(here, '..', 'scripts');
@@ -29,7 +29,9 @@ const scriptsDir = path.join(here, '..', 'scripts');
  */
 function runScript(script, args = [], timeoutMs = 20000) {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [path.join(scriptsDir, script), ...args], {
+    // A smoke-tesztnek nem szabad valódi Bluetooth-hoz/D-Bushoz csatlakoznia.
+    const loader = pathToFileURL(path.join(here, 'fixtures', 'noble-loader.js')).href;
+    const child = spawn(process.execPath, ['--experimental-loader', loader, path.join(scriptsDir, script), ...args], {
       stdio: ['pipe', 'pipe', 'pipe'],
     });
     let stdout = '';

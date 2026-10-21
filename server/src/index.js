@@ -9,6 +9,7 @@
 'use strict';
 
 import { createServer } from 'node:http';
+import { pathToFileURL } from 'node:url';
 
 import { Server } from 'socket.io';
 
@@ -88,7 +89,9 @@ export async function startServer(options = {}) {
   return { app, server, io, registry, noble };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// A kézzel összefűzött file:// URL Windows útvonalaknál, illetve szóközös,
+// ékezetes vagy # karaktert tartalmazó mappánál nem egyezik az import.meta.url-lel.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   startServer().catch((error) => {
     console.error('[codie] indítási hiba:', error);
     process.exit(1);

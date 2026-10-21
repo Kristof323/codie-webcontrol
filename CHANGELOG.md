@@ -2,6 +2,16 @@
 
 A projekt verziózása [semver](https://semver.org/lang/hu/) szerint.
 
+## [0.4.2] — 2026-10-21
+
+### Fixed
+- A szerver belépési pontja `pathToFileURL()`-t használ a kézzel összefűzött
+  `file://` URL helyett. Az előző feltétel Windowson, illetve szóközös vagy
+  ékezetes útvonalon csendes kilépést okozott a szerver elindítása helyett.
+- Valódi gyermekfolyamatos HTTP-indítási regressziós teszt szóközös, ékezetes
+  és `#` karaktert tartalmazó könyvtárban, teszt-only BLE helyettesítővel.
+- A CLI smoke-tesztek sem nyitnak többé valódi Bluetooth-/D-Bus-kapcsolatot.
+
 ## [0.4.1] — 2026-10-21
 
 ### Added

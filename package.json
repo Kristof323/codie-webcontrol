@@ -1,6 +1,6 @@
 {
   "name": "codie-webcontrol",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "private": true,
   "description": "Gyökér-segéd: az npm parancsok a server/ web-backendre mutatnak (így a repó gyökeréből is indítható).",
   "engines": {

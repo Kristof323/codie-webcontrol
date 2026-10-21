@@ -11,7 +11,7 @@ ami 2019-ben hiányzott (PC-oldali BLE út), Linuxon triviális.
 
 A protokoll- és hardverrészletek a [CLAUDE.md](CLAUDE.md)-ben; a fejlődési napló a
 [MEMORY.md](MEMORY.md)-ben; a verziónkénti változások a [CHANGELOG.md](CHANGELOG.md)-ben.
-Aktuális verzió: **v0.4.1** (Windows 11 támogatás a web-backendhez; webes vezérlő Express.js backendrel, a második Codie-generáció
+Aktuális verzió: **v0.4.2** (Windows 11 támogatás a web-backendhez; webes vezérlő Express.js backendrel, a második Codie-generáció
 támogatásával, élő érzékelőadatokkal, mikrofon-figyeléssel és beépített LED-animációval).
 
 ## Projekt struktúra
