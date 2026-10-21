@@ -29,7 +29,7 @@ if (!commandName) {
 
 const args = positional.slice(1);
 const registry = new RobotRegistry({
-  noble: getNoble({ adapterId: config.ble.adapterId }),
+  noble: getNoble({ adapterId: config.ble.adapterId, binding: config.ble.binding }),
   filters: config.ble,
   ...registryOptions(config.ble),
   telemetryMs: 0,

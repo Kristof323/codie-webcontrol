@@ -67,6 +67,8 @@ export function loadConfig(env = process.env) {
 
     ble: {
       adapterId: env.CODIE_ADAPTER || 'hci0',
+      /** BLE binding: auto (platform szerint) | dbus | hci | win | mac. */
+      binding: env.CODIE_BLE_BINDING || 'auto',
       /** Identity-szűrő: a robot neve (a Codie hirdeti: "Codie"). */
       nameFilter,
       /** Identity-szűrő: hirdetett service UUID-k, amiket a Codie visz. */

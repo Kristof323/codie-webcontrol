@@ -19,7 +19,7 @@ import { RobotRegistry } from '../src/ble/registry.js';
 import { formatRobotTable, formatTelemetry, finish } from '../src/cli.js';
 
 const registry = new RobotRegistry({
-  noble: getNoble({ adapterId: config.ble.adapterId }),
+  noble: getNoble({ adapterId: config.ble.adapterId, binding: config.ble.binding }),
   filters: config.ble,
   ...registryOptions(config.ble),
   telemetryMs: 0,

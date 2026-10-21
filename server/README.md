@@ -1,6 +1,7 @@
 # Codie web-backend
 
-Express.js + socket.io backend, ami a Codie oktatórobotokat BLE-en (BlueZ) vezérli.
+Express.js + socket.io backend, ami a Codie oktatórobotokat BLE-en vezérli — Linuxon
+BlueZ-n, Windows 11-en a natív Windows Bluetooth LE-n, macOS-en CoreBluetooth-on.
 Több robotot is kezel egyszerre, és a keresés **csak a robotokat** mutatja — a környezet
 többi BLE eszköze (fehallgatók, telefonok, fitnesz-karikák) kiszűrve.
 
@@ -15,11 +16,24 @@ npm install
 cp .env.example .env      # opcionális — a repó gyökerének .env-je is betöltődik
 ```
 
-A BLE réteg a **BlueZ D-Bus bindinget** használja (`@stoprocent/noble`), ezért:
+A BLE réteg a `@stoprocent/noble` csomagra épül; a binding a platformtól függ
+(`src/ble/noble.js` → `resolveBinding()`), és a `CODIE_BLE_BINDING` változóval
+felülírható (`auto` | `dbus` | `hci` | `win` | `mac`):
 
-- nincs szükség rootra vagy `setcap`-re (a `bluetoothctl` mellett is fut);
-- a `dbus-next` csomag a host projektben kell (a `npm install` felteszi);
-- a gépen futnia kell a `bluetoothd`-nek (`bluetoothctl show` működik → rendben van).
+| Platform | Binding | Megjegyzés |
+|---|---|---|
+| Linux | `dbus` (BlueZ D-Bus) | nincs szükség rootra vagy `setcap`-re; futnia kell a `bluetoothd`-nek (`bluetoothctl show` működik → rendben van); a `dbus-next` csomagot a `npm install` felteszi |
+| Windows 10 1703+ / 11 | `win` (WinRT) | előre fordított natív modul, nem kell Visual Studio; a robotot nem kell párosítani; a `CODIE_ADAPTER` itt nem számít |
+| macOS | `mac` (CoreBluetooth) | a terminálnak Bluetooth-engedély kell |
+
+Windows 11 (PowerShell):
+
+```powershell
+cd server
+npm install
+Copy-Item .env.example .env   # opcionális
+npm start                     # http://localhost:3000
+```
 
 ## Futtatás
 

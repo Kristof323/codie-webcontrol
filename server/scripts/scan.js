@@ -35,7 +35,7 @@ const filters = {
 
 const durationMs = Number(flags.duration ?? flags.d ?? positional[0] ?? config.ble.scanMs);
 
-const noble = getNoble({ adapterId: config.ble.adapterId });
+const noble = getNoble({ adapterId: config.ble.adapterId, binding: config.ble.binding });
 await ensurePoweredOn(noble, 10000);
 
 const scanner = new RobotScanner({ noble, filters });

@@ -2,6 +2,25 @@
 
 A projekt verziózása [semver](https://semver.org/lang/hu/) szerint.
 
+## [0.4.1] — 2026-10-21
+
+### Added
+- **Windows 11 támogatás a web-backendhez.** A `src/ble/noble.js` eddig fixen a Linuxos
+  BlueZ D-Bus bindinget kérte, ami Windowson nem működik. Most a platform szerint választ
+  (`resolveBinding()`): Linux → `dbus`, Windows → `win` (natív WinRT BLE, előre fordított
+  modul), macOS → `mac`. Felülírható a `CODIE_BLE_BINDING` (vagy `NOBLE_BINDINGS`)
+  változóval. A noble peripheral-ID minden bindingnél azonos formájú, így a kliens és a
+  registry változatlan.
+- Platformfüggő hibaüzenet, ha a Bluetooth-adapter nem kapcsol be (`ensurePoweredOn`).
+- Gyökér `package.json`: az `npm install` / `npm start` / `npm run scan` a repó
+  gyökeréből is működik (a `server/`-re mutat).
+- `test/noble.test.js` — a binding-választás unit tesztjei.
+
+### Changed
+- `npm test` platformfüggetlen futtatóval (`scripts/run-tests.js`) — a Windows cmd.exe
+  nem bontja ki a `test/*.test.js` mintát.
+- README / `server/README.md` / `.env.example`: Windows 11 telepítés és indítás.
+
 ## [0.4.0] — 2026-10-21
 
 ### Added

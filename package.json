@@ -1,0 +1,17 @@
+{
+  "name": "codie-webcontrol",
+  "version": "0.4.1",
+  "private": true,
+  "description": "Gyökér-segéd: az npm parancsok a server/ web-backendre mutatnak (így a repó gyökeréből is indítható).",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "postinstall": "npm --prefix server install",
+    "start": "npm --prefix server start",
+    "scan": "npm --prefix server run scan",
+    "console": "npm --prefix server run console",
+    "control": "npm --prefix server run control --",
+    "test": "npm --prefix server test"
+  }
+}

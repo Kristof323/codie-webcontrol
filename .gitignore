@@ -7,6 +7,8 @@ __pycache__/
 
 # Node (web-backend)
 node_modules/
+# a gyökér package.json csak a server/-re mutat, saját függősége nincs
+/package-lock.json
 npm-debug.log*
 
 # Titkos / lokális konfiguráció

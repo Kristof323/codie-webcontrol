@@ -11,7 +11,7 @@ ami 2019-ben hiányzott (PC-oldali BLE út), Linuxon triviális.
 
 A protokoll- és hardverrészletek a [CLAUDE.md](CLAUDE.md)-ben; a fejlődési napló a
 [MEMORY.md](MEMORY.md)-ben; a verziónkénti változások a [CHANGELOG.md](CHANGELOG.md)-ben.
-Aktuális verzió: **v0.4.0** (webes vezérlő Express.js backendrel, a második Codie-generáció
+Aktuális verzió: **v0.4.1** (Windows 11 támogatás a web-backendhez; webes vezérlő Express.js backendrel, a második Codie-generáció
 támogatásával, élő érzékelőadatokkal, mikrofon-figyeléssel és beépített LED-animációval).
 
 ## Projekt struktúra
@@ -120,7 +120,9 @@ szalad le az asztalról.
 ## Webes vezérlő (Express.js backend) — `server/`
 
 A repo mellett futó Node.js backend: **Express + socket.io**, és a robotokat BLE-en
-(BlueZ D-Bus binding, root nélkül) vezérli. Több robotot is kezel, és a keresés
+vezérli. Linuxon a BlueZ D-Bus bindinget használja (root nélkül), **Windows 11-en a
+natív Windows Bluetooth LE-t** (WinRT), macOS-en a CoreBluetooth-t — a platformot
+magától felismeri. Több robotot is kezel, és a keresés
 **csak a Codie-kat mutatja** — a többi BLE eszköz (fehallgatók, telefonok) kiszűrve.
 
 ```bash
@@ -128,6 +130,40 @@ cd server
 npm install
 npm start          # http://localhost:3000 — webes felület + REST + socket.io
 ```
+
+A repó **gyökeréből** is működik (a gyökér `package.json` a `server/`-re mutat):
+
+```bash
+npm install        # a server/ függőségeit telepíti
+npm start
+```
+
+### Windows 11
+
+Előfeltétel: **Node.js 20.11+** (LTS ajánlott, `node -v`), és a gépben BLE-képes
+Bluetooth-adapter (a legtöbb laptopban van). Fordítóprogram nem kell — a Windows-os
+natív BLE modul előre lefordítva jön a `@stoprocent/noble` csomaggal.
+
+```powershell
+# PowerShell, a repó gyökerében
+cd server
+npm install
+Copy-Item .env.example .env     # opcionális
+npm start                       # majd böngészőben: http://localhost:3000
+```
+
+- Kapcsold be a Bluetooth-t: **Gépház → Bluetooth és eszközök**.
+- A robotot **nem kell párosítani** a Windows Bluetooth-beállításaiban — a backend maga
+  keresi és csatlakozik. Ha korábban párosítottad és nem csatlakozik, távolítsd el az
+  eszközt a Windows listájából, és próbáld újra.
+- Az első indításnál a Windows tűzfal rákérdezhet a Node.js hálózati hozzáférésére —
+  ha csak a saját gépről használod, a „Privát hálózat” elég.
+- Ha egy másik program (pl. a Codie mobil/asztali app) épp csatlakozva tartja a robotot,
+  előbb azt bontsd — egy Codie egyszerre egy klienssel beszél.
+- A `CODIE_ADAPTER` Windowson nem számít (a rendszer alapértelmezett adaptere a használt).
+  A bindinget kézzel is megadhatod: `CODIE_BLE_BINDING=win` (vagy `dbus` / `hci` / `mac`).
+- A robot címe Windowson is ugyanaz a formátum: `npm run scan` kilistázza
+  (pl. `00:07:80:66:F0:DB`).
 
 A felületen:
 

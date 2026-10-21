@@ -15,12 +15,12 @@ import { Server } from 'socket.io';
 import { config, registryOptions } from './config.js';
 import { createApp } from './app.js';
 import { attachRealtime } from './realtime.js';
-import { getNoble, ensurePoweredOn } from './ble/noble.js';
+import { getNoble, ensurePoweredOn, activeBinding } from './ble/noble.js';
 import { RobotRegistry } from './ble/registry.js';
 
 export async function startServer(options = {}) {
   const settings = options.config || config;
-  const noble = options.noble || getNoble({ adapterId: settings.ble.adapterId });
+  const noble = options.noble || getNoble({ adapterId: settings.ble.adapterId, binding: settings.ble.binding });
 
   const registry =
     options.registry ||
@@ -50,7 +50,9 @@ export async function startServer(options = {}) {
 
   try {
     await ensurePoweredOn(noble, 10000);
-    console.log(`[codie] BLE adapter (${settings.ble.adapterId}) kész.`);
+    const binding = activeBinding();
+    const adapter = binding === 'dbus' || binding === 'hci' ? settings.ble.adapterId : 'rendszer-alapértelmezett';
+    console.log(`[codie] BLE adapter (${adapter}, binding: ${binding || 'egyedi'}) kész.`);
   } catch (error) {
     console.warn(`[codie] BLE adapter nem elérhető: ${error.message}`);
   }

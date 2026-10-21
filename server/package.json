@@ -1,6 +1,6 @@
 {
   "name": "codie-server",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "type": "module",
   "description": "Express backend + CLI scripts for controlling Codie BLE robots",
@@ -12,7 +12,7 @@
     "scan": "node scripts/scan.js",
     "console": "node scripts/console.js",
     "control": "node scripts/control.js",
-    "test": "node --test test/*.test.js"
+    "test": "node scripts/run-tests.js"
   },
   "dependencies": {
     "@stoprocent/noble": "^2.8.0",
